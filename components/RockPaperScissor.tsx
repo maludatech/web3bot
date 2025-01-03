@@ -2,7 +2,7 @@
 
 import { client } from "@/app/client";
 import { useState } from "react";
-import { ConnectButton } from "thirdweb/react";
+import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { inAppWallet } from "thirdweb/wallets";
 
 type Choice = "Rock" | "Paper" | "Scissors";
@@ -37,6 +37,7 @@ interface GameResult {
 }
 
 export default function RockPaperScissors() {
+  const account = useActiveAccount();
   const [result, setResult] = useState<GameResult | null>(null);
   const [showPrize, setShowPrize] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -94,7 +95,7 @@ export default function RockPaperScissors() {
               </div>
             </div>
           ) : (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center relative">
               <p className="text-xl mb-5">You chose: {result.playerChoice}</p>
               <p className="text-xl mb-5">
                 Computer Choice: {result.computerChoice}
@@ -104,7 +105,7 @@ export default function RockPaperScissors() {
               </p>
               <div className="absolute bottom-4 flex flex-col gap-4 items-center">
                 <button
-                  className="absolute p-5 bg-[#28a745] text-white border-none rounded-md cursor-pointer"
+                  className="w-full p-3 bg-[#28a745] text-sm text-white border-none rounded-md cursor-pointer"
                   onClick={resetGame}
                 >
                   Try again
