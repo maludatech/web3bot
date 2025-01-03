@@ -1,6 +1,6 @@
 import { createThirdwebClient, CreateThirdwebClientOptions } from "thirdweb";
 
-const clientId = process.env.CLIENT_ID;
+const clientId = process.env.CLIENT_ID as string;
 
 if (!clientId) {
   throw new Error("CLIENT_ID is not defined in environment variables.");
