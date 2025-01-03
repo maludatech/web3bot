@@ -148,6 +148,16 @@ export default function RockPaperScissors() {
                       Claim Prize
                     </button>
                   )}
+                  {showModal && (
+                    <div className="fixed top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0.5)] flex items-center justify-center">
+                      <div className="bg-white p-8 rounded-lg max-w-[300px] text-center">
+                        <h2 className="text-xl mb-4">Claim 10 tokens</h2>
+                        <p className="mb-4">
+                          You won and can claim 10 tokens to your wallet.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
