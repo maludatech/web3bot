@@ -73,6 +73,20 @@ export default function RockPaperScissors() {
             }),
           ]}
         />
+        <div>
+          <h3>Choose your option:</h3>
+          <div className="flex justify-center gap-5 m-10">
+            {choices.map((choice) => (
+              <button
+                key={choice}
+                onClick={() => handleChoice(choice)}
+                className="p-5 bg-[#007bff] text-white border-none rounded-md text-xl cursor-pointer"
+              >
+                {choice === "Rock" ? "🪨 " : choice === "Paper" ? "📄 " : "✂ "}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
