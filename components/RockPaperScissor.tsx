@@ -62,7 +62,7 @@ export default function RockPaperScissors() {
   return (
     <div className="flex items-center justify-center h-full w-full bg-[#f0f0f0] text-[#333]">
       <div className="p-10 m-10 w-[400px] max-w-[98%] h-[400px] bg-white rounded-lg shadow-black shadow-lg flex flex-col items-center justify-start relative">
-        <h1 className="text-xl bold mb-10 text-center">Mini Game</h1>
+        <h1 className="text-xl  font-bold mb-10 text-center">Mini Game</h1>
         <ConnectButton
           client={client}
           wallets={[
@@ -74,18 +74,36 @@ export default function RockPaperScissors() {
           ]}
         />
         <div>
-          <h3 className="bold pt-4">Choose your option:</h3>
-          <div className="flex justify-center gap-5 m-10">
-            {choices.map((choice) => (
-              <button
-                key={choice}
-                onClick={() => handleChoice(choice)}
-                className="p-5 bg-[#007bff] text-white border-none rounded-md text-xl cursor-pointer "
-              >
-                {choice === "Rock" ? "🪨 " : choice === "Paper" ? "📄 " : "✂ "}
-              </button>
-            ))}
-          </div>
+          {!result ? (
+            <div>
+              <h3 className="font-bold pt-4">Choose your option:</h3>
+              <div className="flex justify-center gap-5 m-10">
+                {choices.map((choice) => (
+                  <button
+                    key={choice}
+                    onClick={() => handleChoice(choice)}
+                    className="p-5 bg-[#007bff] text-white border-none rounded-md text-xl cursor-pointer "
+                  >
+                    {choice === "Rock"
+                      ? "🪨"
+                      : choice === "Paper"
+                      ? "📄 "
+                      : "✂ "}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center">
+              <p className="text-xl mb-5">You chose: {result.playerChoice}</p>
+              <p className="text-xl mb-5">
+                Computer Choice: {result.computerChoice}
+              </p>
+              <p className="text-xl mb-5 font-extrabold">
+                Result: {result.gameResult}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
