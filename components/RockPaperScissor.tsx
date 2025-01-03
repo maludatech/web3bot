@@ -102,6 +102,14 @@ export default function RockPaperScissors() {
               <p className="text-xl mb-5 font-extrabold">
                 Result: {result.gameResult}
               </p>
+              <div className="absolute bottom-4 flex flex-col gap-4 items-center">
+                <button
+                  className="absolute p-5 bg-[#28a745] text-white border-none rounded-md cursor-pointer"
+                  onClick={resetGame}
+                >
+                  Try again
+                </button>
+              </div>
             </div>
           )}
         </div>
