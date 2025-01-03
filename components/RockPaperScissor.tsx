@@ -140,6 +140,14 @@ export default function RockPaperScissors() {
                   >
                     Try again
                   </button>
+                  {showPrize && !prizeClaimed && (
+                    <button
+                      onClick={clamPrize}
+                      className="w-full p-3 bg-[#ffc107] text-sm text-black border-none rounded-md cursor-pointer"
+                    >
+                      Claim Prize
+                    </button>
+                  )}
                 </div>
               </div>
             )}
