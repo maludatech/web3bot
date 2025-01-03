@@ -3,6 +3,7 @@
 import { client } from "@/app/client";
 import { useState } from "react";
 import { ConnectButton } from "thirdweb/react";
+import { inAppWallet } from "thirdweb/wallets";
 
 type Choice = "Rock" | "Paper" | "Scissors";
 type Result = "Win" | "Lose" | "Tie";
@@ -62,7 +63,16 @@ export default function RockPaperScissors() {
     <div className="flex items-center justify-center h-full w-full bg-[#f0f0f0] text-[#333]">
       <div className="p-10 m-10 w-[400px] max-w-[98%] h-[400px] bg-white rounded-lg shadow-black shadow-lg flex flex-col items-center justify-start relative">
         <h1 className="text-xl bold mb-10 text-center">Mini Game</h1>
-        <ConnectButton client={client} />
+        <ConnectButton
+          client={client}
+          wallets={[
+            inAppWallet({
+              auth: {
+                options: ["email"],
+              },
+            }),
+          ]}
+        />
       </div>
     </div>
   );
