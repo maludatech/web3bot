@@ -2,8 +2,14 @@
 
 import { client } from "@/app/client";
 import { useState } from "react";
-import { ConnectButton, useActiveAccount } from "thirdweb/react";
+import {
+  ConnectButton,
+  useActiveAccount,
+  useActiveWallet,
+  useDisconnect,
+} from "thirdweb/react";
 import { inAppWallet } from "thirdweb/wallets";
+import { shortenAddress } from "thirdweb/utils";
 
 type Choice = "Rock" | "Paper" | "Scissors";
 type Result = "Win" | "Lose" | "Tie";
@@ -38,6 +44,9 @@ interface GameResult {
 
 export default function RockPaperScissors() {
   const account = useActiveAccount();
+  const { disconnect } = useDisconnect();
+  const wallet = useActiveWallet();
+
   const [result, setResult] = useState<GameResult | null>(null);
   const [showPrize, setShowPrize] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -77,48 +86,63 @@ export default function RockPaperScissors() {
           />
         ) : (
           <>
-            <div>
-              {!result ? (
-                <div>
-                  <h3 className="font-bold pt-4">Choose your option:</h3>
-                  <div className="flex justify-center gap-5 m-10">
-                    {choices.map((choice) => (
-                      <button
-                        key={choice}
-                        onClick={() => handleChoice(choice)}
-                        className="p-5 bg-[#007bff] text-white border-none rounded-md text-xl cursor-pointer "
-                      >
-                        {choice === "Rock"
-                          ? "🪨"
-                          : choice === "Paper"
-                          ? "📄 "
-                          : "✂ "}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center">
-                  <p className="text-xl mb-5">
-                    You chose: {result.playerChoice}
-                  </p>
-                  <p className="text-xl mb-5">
-                    Computer Choice: {result.computerChoice}
-                  </p>
-                  <p className="text-xl mb-5 font-extrabold">
-                    Result: {result.gameResult}
-                  </p>
-                  <div className="mt-8 flex flex-col gap-4 items-center">
-                    <button
-                      className="w-full p-3 bg-[#28a745] text-sm text-white border-none rounded-md cursor-pointer"
-                      onClick={resetGame}
-                    >
-                      Try again
-                    </button>
-                  </div>
-                </div>
-              )}
+            <div className="flex h-auto w-full gap-2 items-center justify-between border border-[#f0f0f0] p-2">
+              <div>
+                <p className="text-lg my-4">
+                  {shortenAddress(account.address)}
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  if (wallet) {
+                    disconnect(wallet);
+                  } else {
+                    console.error("No wallet connected.");
+                  }
+                }}
+                className="p-2 bg-[#dc3545] text-white rounded-md cursor-pointer text-sm"
+              >
+                Logout
+              </button>
             </div>
+            {!result ? (
+              <div>
+                <h3 className="font-bold pt-4">Choose your option:</h3>
+                <div className="flex justify-center gap-5 m-10">
+                  {choices.map((choice) => (
+                    <button
+                      key={choice}
+                      onClick={() => handleChoice(choice)}
+                      className="p-5 bg-[#007bff] text-white border-none rounded-md text-xl cursor-pointer "
+                    >
+                      {choice === "Rock"
+                        ? "🪨"
+                        : choice === "Paper"
+                        ? "📄 "
+                        : "✂ "}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center">
+                <p className="text-xl mb-5">You chose: {result.playerChoice}</p>
+                <p className="text-xl mb-5">
+                  Computer Choice: {result.computerChoice}
+                </p>
+                <p className="text-xl mb-5 font-extrabold">
+                  Result: {result.gameResult}
+                </p>
+                <div className="mt-8 flex flex-col gap-4 items-center">
+                  <button
+                    className="w-full p-3 bg-[#28a745] text-sm text-white border-none rounded-md cursor-pointer"
+                    onClick={resetGame}
+                  >
+                    Try again
+                  </button>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
