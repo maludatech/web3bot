@@ -86,6 +86,10 @@ export default function RockPaperScissors() {
         {!account ? (
           <ConnectButton
             client={client}
+            accountAbstraction={{
+              chain: baseSepolia,
+              sponsorGas: true,
+            }}
             wallets={[
               inAppWallet({
                 auth: {
