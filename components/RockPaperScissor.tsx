@@ -8,12 +8,13 @@ import {
   useActiveAccount,
   useActiveWallet,
   useDisconnect,
+  useReadContract,
 } from "thirdweb/react";
 import { inAppWallet } from "thirdweb/wallets";
 import { shortenAddress } from "thirdweb/utils";
 import { getContract } from "thirdweb";
 import { baseSepolia } from "thirdweb/chains";
-import { claimTo } from "thirdweb/extensions/erc20";
+import { claimTo, getBalance } from "thirdweb/extensions/erc20";
 
 type Choice = "Rock" | "Paper" | "Scissors";
 type Result = "Win" | "Lose" | "Tie";
@@ -79,6 +80,11 @@ export default function RockPaperScissors() {
     setShowModal(true);
   };
 
+  const { data: tokenbalance } = useReadContract(getBalance, {
+    contract: contract,
+    address: account?.address!,
+  });
+
   return (
     <div className="flex items-center justify-center h-full w-full bg-[#f0f0f0] text-[#333]">
       <div className="p-10 m-10 w-[400px] max-w-[98%] h-[400px] bg-white rounded-lg shadow-black shadow-lg flex flex-col items-center justify-start relative">
@@ -104,6 +110,9 @@ export default function RockPaperScissors() {
               <div>
                 <p className="text-lg my-4">
                   {shortenAddress(account.address)}
+                </p>
+                <p className="text-lg my-4">
+                  Balance: {tokenbalance?.displayValue}
                 </p>
               </div>
               <button
