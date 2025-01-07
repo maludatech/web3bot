@@ -4,12 +4,16 @@ import { client } from "@/app/client";
 import { useState } from "react";
 import {
   ConnectButton,
+  TransactionButton,
   useActiveAccount,
   useActiveWallet,
   useDisconnect,
 } from "thirdweb/react";
 import { inAppWallet } from "thirdweb/wallets";
 import { shortenAddress } from "thirdweb/utils";
+import { getContract } from "thirdweb";
+import { baseSepolia } from "thirdweb/chains";
+import { claimTo } from "thirdweb/extensions/erc20";
 
 type Choice = "Rock" | "Paper" | "Scissors";
 type Result = "Win" | "Lose" | "Tie";
@@ -46,6 +50,12 @@ export default function RockPaperScissors() {
   const account = useActiveAccount();
   const { disconnect } = useDisconnect();
   const wallet = useActiveWallet();
+
+  const contract = getContract({
+    client: client,
+    chain: baseSepolia,
+    address: "Oxb0c72Fc956f95287c0fF57549aFdEc0169bd9a8D",
+  });
 
   const [result, setResult] = useState<GameResult | null>(null);
   const [showPrize, setShowPrize] = useState<boolean>(false);
@@ -155,6 +165,22 @@ export default function RockPaperScissors() {
                         <p className="mb-4">
                           You won and can claim 10 tokens to your wallet.
                         </p>
+                        <TransactionButton
+                          transaction={() =>
+                            claimTo({
+                              contract: contract,
+                              to: account.address,
+                              quantity: "10 ",
+                            })
+                          }
+                          onTransactionConfirmed={() => {
+                            alert("Prize claimed!");
+                            setShowModal(false);
+                            setPrizeClaimed(true);
+                          }}
+                        >
+                          Claim Prize
+                        </TransactionButton>
                       </div>
                     </div>
                   )}
