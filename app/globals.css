@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+html {
   background: "#f0f0f0";
   height: 100%;
 }
